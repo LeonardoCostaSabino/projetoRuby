@@ -1,9 +1,20 @@
 h1 Welcome
 
-- if = logged_in?
+- if logged_in?
   h1 Voce está logado = current_user.username
-  end
+end
 
-= button_to '/login', @get, class: 'btn btn-green button'
+ul.navbar-right
+  li
+    = link_to "Cadastro",   'users/new'
+  li
+    = link_to "Help",   'help_path'
+  li
+    = link_to "Log in", '/login'
 
-= button_to '/users/new', @get, class: 'btn btn-green button'
+/ = link_to "Edit Profile", /login
+
+/ = link_to 'Cadastro', /login ,@get, class: 'btn btn-green button'
+/ end
+/ = link_to 'Cadastro de Usuario', /users/new,@get, class: 'btn btn-green button'
+/ end
