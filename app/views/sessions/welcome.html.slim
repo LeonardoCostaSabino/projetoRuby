@@ -1,0 +1,9 @@
+h1 Welcome
+
+- if = logged_in?
+  h1 Voce está logado = current_user.username
+  end
+
+= button_to '/login', @get, class: 'btn btn-green button'
+
+= button_to '/users/new', @get, class: 'btn btn-green button'

@@ -1,23 +1,8 @@
-FROM ruby:2.3.0
-ENV LANG C.UTF-8
-
-RUN apt-get update && \
-    apt-get install -y nodejs \
-                       vim \
-                       mysql-client \
-                       --no-install-recommends && \
-    rm -rf /var/lib/apt/lists/*
-
-#Cache bundle install
-WORKDIR /tmp
-ADD ./Gemfile Gemfile
-ADD ./Gemfile.lock Gemfile.lock
+FROM ruby:2.6.0
+RUN apt-get update -qq && apt-get install -y build-essential libpq-dev nodejs
+RUN mkdir /myapp
+WORKDIR /myapp
+COPY Gemfile /myapp/Gemfile
+COPY Gemfile.lock /myapp/Gemfile.lock
 RUN bundle install
-
-ENV APP_ROOT /app
-RUN mkdir -p $APP_ROOT
-WORKDIR $APP_ROOT
-COPY . $APP_ROOT
-
-EXPOSE  3000
-CMD rm -f tmp/pids/server.pid && rails s -b '0.0.0.0'
+CMD ["rails", "server"]

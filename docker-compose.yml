@@ -1,30 +1,19 @@
-  mysql:
-    image: mysql:5.6.34
-    ports:
-      - "3306:3306"
-    volumes_from:
-      - dbdata
-    environment:
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=dev
-
-  dbdata:
-    image: tianon/true
+version: '3'
+services:
+  db:
+    image: postgres
     volumes:
-      - /var/lib/mysql
+      - ./tmp/db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_USER: leo
+      POSTGRES_DB: app
 
-  app:
+  web:
     build: .
-    environment:
-      RAILS_ENV: development
-    ports:
-      - '3000:3000'
-    volumes_from:
-      - appdata
-    links:
-      - "mysql"
-
-  appdata:
-    image: tianon/true
     volumes:
-      - ".:/app"
+      - .:/myapp
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
